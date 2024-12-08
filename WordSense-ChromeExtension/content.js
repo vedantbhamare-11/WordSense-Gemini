@@ -1,4 +1,4 @@
-// Dummy word meanings (for testing, remove once backend is used)
+// ./wordsense-chromeextension/content.js
 const dummyMeanings = {
   "JavaScript": "A high-level, dynamic programming language.",
   "HTML": "The standard markup language for creating web pages.",
@@ -52,11 +52,12 @@ function fetchMeaningFromAPI(word, event) {
     })
     .then((data) => {
       console.log("Response data:", data);
-      if (data.status === "processing") {
-        showTooltip(event, data.message); // Display processing message
-        waitForResult(word, event);
+      if (data.meaning) {
+        showTooltip(event, data.meaning);
+      } else if (data.error) {
+        showTooltip(event, data.error);
       } else {
-        showTooltip(event, "Error fetching the meaning.");
+        showTooltip(event, "No meaning found.");
       }
     })
     .catch((error) => {
@@ -64,6 +65,7 @@ function fetchMeaningFromAPI(word, event) {
       showTooltip(event, "Error fetching the meaning.");
     });
 }
+
 
 // Detect selected text and fetch meaning
 document.addEventListener("mouseup", (event) => {

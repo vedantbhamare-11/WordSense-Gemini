@@ -1,3 +1,4 @@
+# WordSense-Backend/app.py
 from flask import Flask, request, jsonify
 import google.generativeai as genai
 from flask_cors import CORS
@@ -25,29 +26,15 @@ def get_meaning():
         response = model.generate_content(prompt)
         print("API Response:", response)  # Debugging print, remove in production
 
-        # Check for the structure of the response and extract meaning
-        meaning = "Meaning not found."
-        if hasattr(response, '_result') and hasattr(response._result, 'candidates'):
-            candidates = response._result.candidates
-            if candidates:
-                content = candidates[0].content  # First candidate content
-                if content and hasattr(content, 'parts'):
-                    meaning_parts = content.parts
-                    if meaning_parts:
-                        meaning = meaning_parts[0].text  # Extract meaning from the first part
-                    else:
-                        meaning = "No detailed meaning found."
-                else:
-                    meaning = "No content parts available."
-            else:
-                meaning = "No candidates returned from the API."
+        # Extract the text from the response
+        if hasattr(response, 'text'):
+            meaning = response.text
         else:
-            meaning = "Invalid response from the API."
+            meaning = "Meaning not found in the response."
 
         return jsonify({"meaning": meaning})
 
     except Exception as e:
-        # Catching unexpected errors and returning them as a response
         print(f"Error occurred: {e}")
         return jsonify({"error": "An error occurred while fetching the meaning."}), 500
 
