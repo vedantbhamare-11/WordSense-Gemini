@@ -1,15 +1,16 @@
 /* Tooltip style */
 #word-tooltip {
-    position: absolute;
-    background-color: #333;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    z-index: 1000;
-    display: none;
-    white-space: nowrap;
-    pointer-events: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1000;
+  display: none;
+  max-width: 300px;  /* Maximum width for the tooltip */
+  word-wrap: break-word; /* Ensure text wraps inside the tooltip */
+  white-space: normal; /* Allow text wrapping */
+  pointer-events: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

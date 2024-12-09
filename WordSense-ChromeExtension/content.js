@@ -1,10 +1,3 @@
-// ./wordsense-chromeextension/content.js
-const dummyMeanings = {
-  "JavaScript": "A high-level, dynamic programming language.",
-  "HTML": "The standard markup language for creating web pages.",
-  "CSS": "A stylesheet language used to describe the presentation of a document written in HTML."
-};
-
 // Create tooltip element
 const tooltip = document.createElement("div");
 tooltip.id = "word-tooltip";
@@ -16,13 +9,37 @@ tooltip.style.borderRadius = "4px";
 tooltip.style.display = "none";
 tooltip.style.fontSize = "14px";
 tooltip.style.zIndex = "1000";
+tooltip.style.maxWidth = "300px";  // Set a maximum width for the tooltip
+tooltip.style.wordWrap = "break-word";  // Ensure text breaks to the next line if too long
+tooltip.style.whiteSpace = "normal"; // Allow wrapping instead of one single line
 document.body.appendChild(tooltip);
 
 // Function to show tooltip with word meaning
 function showTooltip(event, meaning) {
   tooltip.textContent = meaning;
-  tooltip.style.left = `${event.pageX + 10}px`;
-  tooltip.style.top = `${event.pageY + 10}px`;
+
+  // Get the current position of the tooltip
+  let tooltipLeft = event.pageX + 10;
+  let tooltipTop = event.pageY + 10;
+
+  // Check if the tooltip goes off the screen horizontally (right edge)
+  const tooltipRect = tooltip.getBoundingClientRect();
+  const windowWidth = window.innerWidth;
+  if (tooltipLeft + tooltipRect.width > windowWidth) {
+    tooltipLeft = windowWidth - tooltipRect.width - 10;  // Align to the right side if overflowing
+  }
+
+  // Check if the tooltip goes off the screen vertically (bottom edge)
+  const windowHeight = window.innerHeight;
+  if (tooltipTop + tooltipRect.height > windowHeight) {
+    tooltipTop = windowHeight - tooltipRect.height - 10;  // Align to the bottom if overflowing
+  }
+
+  // Set the tooltip position
+  tooltip.style.left = `${tooltipLeft}px`;
+  tooltip.style.top = `${tooltipTop}px`;
+
+  // Show the tooltip
   tooltip.style.display = "block";
 }
 
@@ -66,22 +83,27 @@ function fetchMeaningFromAPI(word, event) {
     });
 }
 
-
 // Detect selected text and fetch meaning
 document.addEventListener("mouseup", (event) => {
-  const selectedText = window.getSelection().toString().trim();
-  
-  if (selectedText) {
-    if (dummyMeanings[selectedText]) {
-      // Use dummy data if available
-      showTooltip(event, dummyMeanings[selectedText]);
-    } else {
-      // Fetch from backend if not in dummy data
-      fetchMeaningFromAPI(selectedText, event);
+  // Check the extension's state
+  chrome.storage.sync.get('isExtensionEnabled', function (data) {
+    const isExtensionEnabled = data.isExtensionEnabled ?? true; // Default to true if not set
+
+    if (!isExtensionEnabled) {
+      // Hide tooltip and prevent further actions if the extension is turned off
+      hideTooltip();
+      return;
     }
-  } else {
-    hideTooltip();
-  }
+
+    const selectedText = window.getSelection().toString().trim();
+    
+    if (selectedText) {
+      // Use dummy data or fetch from backend
+      fetchMeaningFromAPI(selectedText, event);
+    } else {
+      hideTooltip();
+    }
+  });
 });
 
 // Hide tooltip when clicking elsewhere

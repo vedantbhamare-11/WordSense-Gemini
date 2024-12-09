@@ -1,18 +1,25 @@
 {
-    "manifest_version": 3,
-    "name": "Word Meaning Tooltip",
-    "version": "1.0",
-    "description": "Shows the meaning of a selected word using a tooltip.",
-    "permissions": ["activeTab", "scripting"],
-    "icons": {
-      "128": "icon.png"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"],
-        "css": ["tooltip.css"]
-      }
-    ]
+  "manifest_version": 3,
+  "name": "WordSense Extension",
+  "version": "1.0",
+  "description": "Shows the meaning of a selected word using a tooltip.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "icons": {
+    "128": "icon.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["tooltip.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
   }
-  
+}
