@@ -1,22 +1,21 @@
-// ./WordSense-ChromeExtension/popup.js
 document.addEventListener('DOMContentLoaded', function () {
   const toggleButton = document.getElementById('toggle-btn');
-  const fieldRadios = document.querySelectorAll('input[name="field"]');
+  const fieldButtons = document.querySelectorAll('.field-btn');
 
   // Get the current state from storage
   chrome.storage.sync.get(['isExtensionEnabled', 'selectedField'], function (data) {
-    const isExtensionEnabled = data.isExtensionEnabled ?? true; // Default to true if not set
-    const selectedField = data.selectedField ?? 'General'; // Default field to General
+    const isExtensionEnabled = data.isExtensionEnabled ?? true;
+    const selectedField = data.selectedField ?? 'General';
 
     updateButtonState(isExtensionEnabled);
-    setFieldSelection(selectedField);
+    setActiveField(selectedField);
   });
 
-  // Listen for button clicks to toggle the extension state
+  // Toggle extension state
   toggleButton.addEventListener('click', function () {
     chrome.storage.sync.get('isExtensionEnabled', function (data) {
-      const isExtensionEnabled = data.isExtensionEnabled ?? true;
-      const newState = !isExtensionEnabled;
+      const isEnabled = data.isExtensionEnabled ?? true;
+      const newState = !isEnabled;
 
       chrome.storage.sync.set({ isExtensionEnabled: newState }, function () {
         updateButtonState(newState);
@@ -25,14 +24,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Listen for changes in field selection
-  fieldRadios.forEach(radio => {
-    radio.addEventListener('change', function () {
-      chrome.storage.sync.set({ selectedField: this.value });
+  // Handle field button clicks
+  fieldButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      const selectedField = this.getAttribute('data-field');
+
+      // Save the selected field to storage
+      chrome.storage.sync.set({ selectedField }, function () {
+        setActiveField(selectedField);
+      });
     });
   });
 
-  // Update button text and class based on state
+  // Update the toggle button state
   function updateButtonState(isEnabled) {
     if (isEnabled) {
       toggleButton.textContent = "Turn Off";
@@ -45,10 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Set the selected field in the UI
-  function setFieldSelection(selectedField) {
-    fieldRadios.forEach(radio => {
-      radio.checked = (radio.value === selectedField);
+  // Set the active field button
+  function setActiveField(field) {
+    fieldButtons.forEach(button => {
+      button.classList.remove('active');
+      if (button.getAttribute('data-field') === field) {
+        button.classList.add('active');
+      }
     });
   }
 });

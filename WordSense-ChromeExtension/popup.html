@@ -5,34 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WordSense Extension</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
     body {
-      width: 220px;
-      padding: 10px;
-      font-family: Arial, sans-serif;
+      width: 280px;
+      padding: 20px;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin: 0;
     }
-    button {
-      padding: 10px;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    button#toggle-btn {
+      padding: 12px;
       width: 100%;
       font-size: 16px;
+      font-weight: 500;
       cursor: pointer;
       border: none;
-      border-radius: 5px;
-      margin-top: 10px;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: #fff;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 20px;
     }
-    button.on {
-      background-color: #4CAF50;
-      color: white;
+
+    button#toggle-btn.on {
+      background-color: #28a745;
     }
-    button.off {
-      background-color: #f44336;
-      color: white;
+
+    button#toggle-btn.off {
+      background-color: #dc3545;
     }
-    .field-select {
-      margin-top: 10px;
+
+    button#toggle-btn:hover {
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
     }
-    .field-select label {
-      display: block;
-      margin: 5px 0;
+
+    .field-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .field-buttons button {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      color: #333;
+    }
+
+    .field-buttons button.active {
+      background-color: #007bff;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .field-buttons button:hover {
+      background-color: #d0d0d0;
+      transform: translateY(-2px);
     }
   </style>
 </head>
@@ -40,13 +88,12 @@
   <h3>WordSense Extension</h3>
   <button id="toggle-btn" class="off">Turn On</button>
 
-  <div class="field-select">
-    <h4>Select Field:</h4>
-    <label><input type="radio" name="field" value="General" checked> General</label>
-    <label><input type="radio" name="field" value="Science"> Science</label>
-    <label><input type="radio" name="field" value="Medical"> Medical</label>
-    <label><input type="radio" name="field" value="Law"> Law</label>
-    <label><input type="radio" name="field" value="Computer Science"> Computer Science</label>
+  <div class="field-buttons">
+    <button class="field-btn active" data-field="General">General</button>
+    <button class="field-btn" data-field="Science">Science</button>
+    <button class="field-btn" data-field="Medical">Medical</button>
+    <button class="field-btn" data-field="Law">Law</button>
+    <button class="field-btn" data-field="Computer Science">Computer Science</button>
   </div>
 
   <script src="popup.js"></script>
