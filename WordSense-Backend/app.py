@@ -19,7 +19,7 @@ def get_meaning():
         return jsonify({"error": "No word provided."}), 400
 
     # Prepare the prompt to request meaning
-    prompt = f"Give the meaning of the word '{word}' in a single sentence."
+    prompt = f"Give the meaning of the word '{word}' in a single sentence"
 
     try:
         # Make the API call to Gemini

@@ -18,30 +18,33 @@ document.body.appendChild(tooltip);
 function showTooltip(event, meaning) {
   tooltip.textContent = meaning;
 
-  // Get the current position of the tooltip
+  // Get the tooltip's height before positioning
+  tooltip.style.display = "block";
+  const tooltipRect = tooltip.getBoundingClientRect();
+  
+  // Calculate tooltip position above the selected word
   let tooltipLeft = event.pageX + 10;
-  let tooltipTop = event.pageY + 10;
+  let tooltipTop = event.pageY - tooltipRect.height - 10;  // Position above the cursor
 
   // Check if the tooltip goes off the screen horizontally (right edge)
-  const tooltipRect = tooltip.getBoundingClientRect();
   const windowWidth = window.innerWidth;
   if (tooltipLeft + tooltipRect.width > windowWidth) {
     tooltipLeft = windowWidth - tooltipRect.width - 10;  // Align to the right side if overflowing
   }
 
-  // Check if the tooltip goes off the screen vertically (bottom edge)
-  const windowHeight = window.innerHeight;
-  if (tooltipTop + tooltipRect.height > windowHeight) {
-    tooltipTop = windowHeight - tooltipRect.height - 10;  // Align to the bottom if overflowing
+  // Check if the tooltip goes off the screen vertically (top edge)
+  if (tooltipTop < 0) {
+    tooltipTop = event.pageY + 10;  // If not enough space above, show it below the cursor
   }
 
   // Set the tooltip position
   tooltip.style.left = `${tooltipLeft}px`;
   tooltip.style.top = `${tooltipTop}px`;
 
-  // Show the tooltip
+  // Display the tooltip
   tooltip.style.display = "block";
 }
+
 
 // Function to hide tooltip
 function hideTooltip() {
@@ -85,14 +88,12 @@ function fetchMeaningFromAPI(word, event) {
 
 // Detect selected text and fetch meaning
 document.addEventListener("mouseup", (event) => {
-  // Check the extension's state
   chrome.storage.sync.get('isExtensionEnabled', function (data) {
     const isExtensionEnabled = data.isExtensionEnabled ?? true; // Default to true if not set
 
     if (!isExtensionEnabled) {
-      // Hide tooltip and prevent further actions if the extension is turned off
       hideTooltip();
-      return;
+      return; // Don't do anything if the extension is turned off
     }
 
     const selectedText = window.getSelection().toString().trim();
