@@ -14,12 +14,13 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 def get_meaning():
     data = request.json
     word = data.get('word', '')
-    
+    field = data.get('field', 'General')
+
     if not word:
         return jsonify({"error": "No word provided."}), 400
 
-    # Prepare the prompt to request meaning
-    prompt = f"Give the meaning of the word '{word}' in a single sentence"
+    # Prepare the prompt to request meaning based on the selected field
+    prompt = f"Give the meaning of the word '{word}' in the field of '{field}' in a single sentence."
 
     try:
         # Make the API call to Gemini
@@ -37,6 +38,7 @@ def get_meaning():
     except Exception as e:
         print(f"Error occurred: {e}")
         return jsonify({"error": "An error occurred while fetching the meaning."}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

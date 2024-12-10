@@ -1,3 +1,4 @@
+// ./WordSense-ChromeExtension/content.js
 // Create tooltip element
 const tooltip = document.createElement("div");
 tooltip.id = "word-tooltip";
@@ -53,38 +54,42 @@ function hideTooltip() {
 
 // Function to fetch meaning from Flask backend
 function fetchMeaningFromAPI(word, event) {
-  const url = "http://127.0.0.1:5000/get-meaning";
-  const payload = { word };
+  chrome.storage.sync.get('selectedField', function (data) {
+    const field = data.selectedField ?? 'General'; // Default to General if not set
+    const url = "http://127.0.0.1:5000/get-meaning";
+    const payload = { word, field };
 
-  console.log("Sending request to:", url);
-  console.log("Payload:", payload);
+    console.log("Sending request to:", url);
+    console.log("Payload:", payload);
 
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => {
-      console.log("Received response:", response);
-      return response.json();
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     })
-    .then((data) => {
-      console.log("Response data:", data);
-      if (data.meaning) {
-        showTooltip(event, data.meaning);
-      } else if (data.error) {
-        showTooltip(event, data.error);
-      } else {
-        showTooltip(event, "No meaning found.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching meaning:", error);
-      showTooltip(event, "Error fetching the meaning.");
-    });
+      .then((response) => {
+        console.log("Received response:", response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Response data:", data);
+        if (data.meaning) {
+          showTooltip(event, data.meaning);
+        } else if (data.error) {
+          showTooltip(event, data.error);
+        } else {
+          showTooltip(event, "No meaning found.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching meaning:", error);
+        showTooltip(event, "Error fetching the meaning.");
+      });
+  });
 }
+
 
 // Detect selected text and fetch meaning
 document.addEventListener("mouseup", (event) => {

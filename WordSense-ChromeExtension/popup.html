@@ -6,7 +6,7 @@
   <title>WordSense Extension</title>
   <style>
     body {
-      width: 200px;
+      width: 220px;
       padding: 10px;
       font-family: Arial, sans-serif;
     }
@@ -27,11 +27,27 @@
       background-color: #f44336;
       color: white;
     }
+    .field-select {
+      margin-top: 10px;
+    }
+    .field-select label {
+      display: block;
+      margin: 5px 0;
+    }
   </style>
 </head>
 <body>
   <h3>WordSense Extension</h3>
   <button id="toggle-btn" class="off">Turn On</button>
+
+  <div class="field-select">
+    <h4>Select Field:</h4>
+    <label><input type="radio" name="field" value="General" checked> General</label>
+    <label><input type="radio" name="field" value="Science"> Science</label>
+    <label><input type="radio" name="field" value="Medical"> Medical</label>
+    <label><input type="radio" name="field" value="Law"> Law</label>
+    <label><input type="radio" name="field" value="Computer Science"> Computer Science</label>
+  </div>
 
   <script src="popup.js"></script>
 </body>
