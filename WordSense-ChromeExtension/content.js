@@ -6,13 +6,14 @@ tooltip.style.position = "absolute";
 tooltip.style.padding = "8px";
 tooltip.style.backgroundColor = "#333";
 tooltip.style.color = "#fff";
-tooltip.style.borderRadius = "4px";
+tooltip.style.borderRadius = "8px";
 tooltip.style.display = "none";
-tooltip.style.fontSize = "14px";
+tooltip.style.fontFamily = "Arial, sans-serif";
+tooltip.style.fontSize = "16px";
 tooltip.style.zIndex = "1000";
-tooltip.style.maxWidth = "300px";  // Set a maximum width for the tooltip
-tooltip.style.wordWrap = "break-word";  // Ensure text breaks to the next line if too long
-tooltip.style.whiteSpace = "normal"; // Allow wrapping instead of one single line
+tooltip.style.maxWidth = "300px";  
+tooltip.style.wordWrap = "break-word"; 
+tooltip.style.whiteSpace = "normal";
 document.body.appendChild(tooltip);
 
 // Function to show tooltip with word meaning
@@ -59,9 +60,6 @@ function fetchMeaningFromAPI(word, event) {
     const url = "http://127.0.0.1:5000/get-meaning";
     const payload = { word, field };
 
-    console.log("Sending request to:", url);
-    console.log("Payload:", payload);
-
     fetch(url, {
       method: "POST",
       headers: {
@@ -69,12 +67,8 @@ function fetchMeaningFromAPI(word, event) {
       },
       body: JSON.stringify(payload),
     })
-      .then((response) => {
-        console.log("Received response:", response);
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Response data:", data);
+      .then(response => response.json())
+      .then(data => {
         if (data.meaning) {
           showTooltip(event, data.meaning);
         } else if (data.error) {
@@ -83,12 +77,10 @@ function fetchMeaningFromAPI(word, event) {
           showTooltip(event, "No meaning found.");
         }
       })
-      .catch((error) => {
-        console.error("Error fetching meaning:", error);
-        showTooltip(event, "Error fetching the meaning.");
-      });
+      .catch(() => showTooltip(event, "Error fetching the meaning."));
   });
 }
+
 
 
 // Detect selected text and fetch meaning

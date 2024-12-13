@@ -8,8 +8,8 @@
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
     body {
-      width: 280px;
-      padding: 20px;
+      width: 300px;
+      padding: 4px;
       font-family: 'Roboto', sans-serif;
       background-color: #f9f9f9;
       color: #333;
@@ -17,13 +17,22 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
       margin: 0;
+      box-sizing: border-box;
     }
 
-    h3 {
-      font-size: 20px;
-      font-weight: 700;
+    .container {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      font-family:Georgia, 'Times New Roman', Times, serif;
       color: #2c3e50;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     button#toggle-btn {
@@ -57,6 +66,8 @@
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
+      margin-bottom: 20px;
+      width: auto;
     }
 
     .field-buttons button {
@@ -73,7 +84,7 @@
     }
 
     .field-buttons button.active {
-      background-color: #007bff;
+      background-color: #01adb5;
       color: #fff;
       font-weight: 700;
     }
@@ -82,19 +93,72 @@
       background-color: #d0d0d0;
       transform: translateY(-2px);
     }
+
+    /* Custom field input styling */
+    .custom-field-container {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .custom-field-container input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    .custom-field-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #01adb5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .custom-field-container button:hover {
+      background-color: #038289;
+    }
+
+    .custom-field-container input:focus, .custom-field-container button:focus {
+      outline: none;
+      border-color: #038289;
+    }
   </style>
 </head>
 <body>
-  <h3>WordSense Extension</h3>
+  <h1>WordSense Extension</h1>
+
+  <div class="container">
+
+
+  <!-- Toggle Button -->
   <button id="toggle-btn" class="off">Turn On</button>
 
+  <!-- Field Buttons -->
   <div class="field-buttons">
     <button class="field-btn active" data-field="General">General</button>
     <button class="field-btn" data-field="Science">Science</button>
     <button class="field-btn" data-field="Medical">Medical</button>
     <button class="field-btn" data-field="Law">Law</button>
-    <button class="field-btn" data-field="Computer Science">Computer Science</button>
+    <button class="field-btn" data-field="Computer Science">Computer</button>
+    <button class="field-btn" data-field="Architecture">Architecture</button>
+
   </div>
+
+  <!-- Custom Field Input Section -->
+  <div class="custom-field-container">
+    <input type="text" id="custom-field-input" placeholder="Enter a custom field" />
+    <button id="save-custom-field">Save Custom Field</button>
+  </div>
+
+  </div>
+  
 
   <script src="popup.js"></script>
 </body>

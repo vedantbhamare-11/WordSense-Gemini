@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   const toggleButton = document.getElementById('toggle-btn');
   const fieldButtons = document.querySelectorAll('.field-btn');
+  
 
   // Get the current state from storage
   chrome.storage.sync.get(['isExtensionEnabled', 'selectedField'], function (data) {
@@ -56,6 +57,17 @@ document.addEventListener('DOMContentLoaded', function () {
       if (button.getAttribute('data-field') === field) {
         button.classList.add('active');
       }
+    });
+  }
+});
+
+document.getElementById('save-custom-field').addEventListener('click', function () {
+  const customField = document.getElementById('custom-field-input').value.trim();
+
+  if (customField) {
+    chrome.storage.sync.set({ selectedField: customField }, function () {
+      alert("Custom field saved!");
+      setActiveField(customField);
     });
   }
 });
