@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS to allow requests from any origin
 
 # Configure Gemini API with your API key
-genai.configure(api_key="YOUR_GEMINI_API_KEY")
+genai.configure(api_key="AIzaSyAmRn3nLQ37cd_-9FrWLwXHJfDVAW3pd88")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 @app.route('/get-meaning', methods=['POST'])
