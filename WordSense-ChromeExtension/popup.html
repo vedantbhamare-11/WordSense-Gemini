@@ -129,6 +129,7 @@
       outline: none;
       border-color: #038289;
     }
+   
   </style>
 </head>
 <body>
@@ -148,15 +149,20 @@
     <button class="field-btn" data-field="Law">Law</button>
     <button class="field-btn" data-field="Computer Science">Computer</button>
     <button class="field-btn" data-field="Architecture">Architecture</button>
-
   </div>
-
+  
+  <!-- Container for dynamically adding the custom field button -->
+  <div class="field-buttons">
+    <div id="custom-field-button-container"></div>
+  </div>
+  
   <!-- Custom Field Input Section -->
   <div class="custom-field-container">
     <input type="text" id="custom-field-input" placeholder="Enter a custom field" />
     <button id="save-custom-field">Save Custom Field</button>
   </div>
-
+  
+  
   </div>
   
 
