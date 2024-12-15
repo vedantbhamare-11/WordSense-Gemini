@@ -60,16 +60,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Update the toggle button state
   function updateButtonState(isEnabled) {
+    const toggleIcon = document.getElementById('toggle-icon');
+    
     if (isEnabled) {
-      toggleButton.textContent = "Turn Off";
+      toggleIcon.src = "power-button-on.png";
       toggleButton.classList.remove("off");
       toggleButton.classList.add("on");
     } else {
-      toggleButton.textContent = "Turn On";
+      toggleIcon.src = "power-button-off.png";
       toggleButton.classList.remove("on");
       toggleButton.classList.add("off");
     }
   }
+  
 
   // Set the active field button
   function setActiveField(field) {

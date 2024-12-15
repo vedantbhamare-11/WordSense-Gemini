@@ -35,39 +35,22 @@
       margin-bottom: 10px;
     }
 
-    button#toggle-btn {
-      padding: 12px;
-      width: 100%;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
-      border-radius: 8px;
-      background-color: #007bff;
-      color: #fff;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      margin-bottom: 20px;
-    }
-
-    button#toggle-btn.on {
-      background-color: #28a745;
-    }
-
-    button#toggle-btn.off {
-      background-color: #dc3545;
-    }
-
-    button#toggle-btn:hover {
-      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
-    }
-
+  #toggle-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
     .field-buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
-      margin-bottom: 20px;
       width: auto;
+      margin: auto;
     }
 
     .field-buttons button {
@@ -83,6 +66,26 @@
       color: #333;
     }
 
+    .field-custom-buttons {
+      flex-wrap: wrap;
+      gap: 10px;
+      width: auto;
+      margin: auto;
+    }
+
+    .field-custom-buttons button {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      background-color: #e0e0e0;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      color: #333;
+    }
     .field-buttons button.active {
       background-color: #01adb5;
       color: #fff;
@@ -133,14 +136,15 @@
   </style>
 </head>
 <body>
-  <h1>WordSense Extension</h1>
+  <h1>WordSense</h1>
 
   <div class="container">
 
 
   <!-- Toggle Button -->
-  <button id="toggle-btn" class="off">Turn On</button>
-
+  <div id="toggle-btn" class="off">
+    <img id="toggle-icon" src="power-button-off.png" alt="Power Button" style="width: 60px; height: 60px;">
+  </div>
   <!-- Field Buttons -->
   <div class="field-buttons">
     <button class="field-btn active" data-field="General">General</button>
@@ -152,13 +156,14 @@
   </div>
   
   <!-- Container for dynamically adding the custom field button -->
-  <div class="field-buttons">
+  <div class="field-custom-buttons">
     <div id="custom-field-button-container"></div>
   </div>
   
   <!-- Custom Field Input Section -->
   <div class="custom-field-container">
     <input type="text" id="custom-field-input" placeholder="Enter a custom field" />
+    
     <button id="save-custom-field">Save Custom Field</button>
   </div>
   
