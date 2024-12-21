@@ -32,6 +32,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Reset button functionality
+const resetCustomFieldButton = document.getElementById('reset-custom-field');
+
+resetCustomFieldButton.addEventListener('click', function () {
+  // Remove custom field button if exists
+  if (customFieldButton) {
+    customFieldButton.remove();
+    customFieldButton = null;
+  }
+
+  // Clear storage for selectedField if it was custom
+  chrome.storage.sync.set({ selectedField: 'General' }, function () {
+    setActiveField('General'); // Reset to default field
+    customFieldInput.value = ''; // Clear input box
+  });
+});
+
+
   // Handle field button clicks
   fieldButtons.forEach(button => {
     button.addEventListener('click', function () {

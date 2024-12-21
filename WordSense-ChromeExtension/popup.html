@@ -101,6 +101,7 @@
     .custom-field-container {
       margin-top: 20px;
       font-size: 14px;
+      width: 100%;
     }
 
     .custom-field-container input {
@@ -109,7 +110,6 @@
       font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      margin-bottom: 10px;
       box-sizing: border-box;
     }
 
@@ -132,6 +132,38 @@
       outline: none;
       border-color: #038289;
     }
+
+    .custom-field-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.custom-field-actions button {
+  flex: 1;
+  padding: 10px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-field-actions button:hover {
+  background-color: #c0392b;
+}
+
+#save-custom-field {
+  background-color: #01adb5;
+  width: 70%;
+}
+
+#save-custom-field:hover {
+  background-color: #038289;
+}
+
    
   </style>
 </head>
@@ -163,8 +195,10 @@
   <!-- Custom Field Input Section -->
   <div class="custom-field-container">
     <input type="text" id="custom-field-input" placeholder="Enter a custom field" />
-    
-    <button id="save-custom-field">Save Custom Field</button>
+    <div class="custom-field-actions">
+      <button id="save-custom-field">Save</button>
+      <button id="reset-custom-field">Reset</button>
+    </div>
   </div>
   
   
