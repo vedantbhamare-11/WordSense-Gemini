@@ -1,0 +1,39 @@
+# Ignore node_modules if you're using npm
+node_modules/
+
+# Ignore virtual environment folder
+venv/
+
+# Ignore build artifacts
+build/
+dist/
+
+# Ignore temporary files
+*.tmp
+*.log
+*.bak
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+*.iml
+
+# Ignore Chrome extension cache
+chrome-extension/
+
+# Ignore environment and sensitive files
+.env
+.env.local
+.env.*.local
+
+# Ignore debug or temporary artifacts
+*.swp
+*.swo
+
+# Ignore package-lock and yarn-lock if not needed
+package-lock.json
+yarn.lock

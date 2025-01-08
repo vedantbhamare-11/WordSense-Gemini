@@ -57,7 +57,7 @@ function hideTooltip() {
 function fetchMeaningFromAPI(word, event) {
   chrome.storage.sync.get('selectedField', function (data) {
     const field = data.selectedField ?? 'General'; // Default to General if not set
-    const url = "http://127.0.0.1:5000/get-meaning";
+    const url = "https://vedantbhamare.pythonanywhere.com/get-meaning";
     const payload = { word, field };
 
     fetch(url, {

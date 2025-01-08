@@ -1,210 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WordSense Extension</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WordSense Extension</title>
 
-    body {
-      width: 300px;
-      padding: 4px;
-      font-family: 'Roboto', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      margin: 0;
-      box-sizing: border-box;
-    }
+    <!-- Google Font -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+    />
 
-    .container {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h1 {
-      font-size: 24px;
-      font-weight: 800;
-      font-family:Georgia, 'Times New Roman', Times, serif;
-      color: #2c3e50;
-      margin-bottom: 10px;
-    }
-
-  #toggle-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100%;
-  padding: 10px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-    .field-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      width: auto;
-      margin: auto;
-    }
-
-    .field-buttons button {
-      flex: 1;
-      padding: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      background-color: #e0e0e0;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      color: #333;
-    }
-
-    .field-custom-buttons {
-      flex-wrap: wrap;
-      gap: 10px;
-      width: auto;
-      margin: auto;
-    }
-
-    .field-custom-buttons button {
-      flex: 1;
-      padding: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      background-color: #e0e0e0;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      color: #333;
-    }
-    .field-buttons button.active {
-      background-color: #01adb5;
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .field-buttons button:hover {
-      background-color: #d0d0d0;
-      transform: translateY(-2px);
-    }
-
-    /* Custom field input styling */
-    .custom-field-container {
-      margin-top: 20px;
-      font-size: 14px;
-      width: 100%;
-    }
-
-    .custom-field-container input {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-sizing: border-box;
-    }
-
-    .custom-field-container button {
-      width: 100%;
-      padding: 10px;
-      background-color: #01adb5;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .custom-field-container button:hover {
-      background-color: #038289;
-    }
-
-    .custom-field-container input:focus, .custom-field-container button:focus {
-      outline: none;
-      border-color: #038289;
-    }
-
-    .custom-field-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  width: 100%;
-}
-
-.custom-field-actions button {
-  flex: 1;
-  padding: 10px;
-  background-color: #e74c3c;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.custom-field-actions button:hover {
-  background-color: #c0392b;
-}
-
-#save-custom-field {
-  background-color: #01adb5;
-  width: 70%;
-}
-
-#save-custom-field:hover {
-  background-color: #038289;
-}
-
-   
-  </style>
-</head>
-<body>
-  <h1>WordSense</h1>
-
-  <div class="container">
-
-
-  <!-- Toggle Button -->
-  <div id="toggle-btn" class="off">
-    <img id="toggle-icon" src="power-button-off.png" alt="Power Button" style="width: 60px; height: 60px;">
-  </div>
-  <!-- Field Buttons -->
-  <div class="field-buttons">
-    <button class="field-btn active" data-field="General">General</button>
-    <button class="field-btn" data-field="Science">Science</button>
-    <button class="field-btn" data-field="Medical">Medical</button>
-    <button class="field-btn" data-field="Law">Law</button>
-    <button class="field-btn" data-field="Computer Science">Computer</button>
-    <button class="field-btn" data-field="Architecture">Architecture</button>
-  </div>
-  
-  <!-- Container for dynamically adding the custom field button -->
-  <div class="field-custom-buttons">
-    <div id="custom-field-button-container"></div>
-  </div>
-  
-  <!-- Custom Field Input Section -->
-  <div class="custom-field-container">
-    <input type="text" id="custom-field-input" placeholder="Enter a custom field" />
-    <div class="custom-field-actions">
-      <button id="save-custom-field">Save</button>
-      <button id="reset-custom-field">Reset</button>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <!-- Updated heading with "AI" badge -->
+    <div class="heading">
+      <h1>
+        WordSense
+        <span class="ai-badge">AI</span>
+      </h1>
+      <div id="toggle-btn" class="off">
+        <img
+          id="toggle-icon"
+          src="power-button-off.png"
+          alt="Power Button"
+          style="width: 30px; height: 30px"
+        />
+      </div>
     </div>
-  </div>
-  
-  
-  </div>
-  
 
-  <script src="popup.js"></script>
-</body>
+    <div class="container">
+     
+      <!-- Field Buttons -->
+      <div class="field-buttons">
+        <button class="field-btn active" data-field="General">General</button>
+        <button class="field-btn" data-field="Science">Science</button>
+        <button class="field-btn" data-field="Medical">Medical</button>
+        <button class="field-btn" data-field="Law">Law</button>
+        <button class="field-btn" data-field="Computer Science">
+          Computer
+        </button>
+        <button class="field-btn" data-field="Architecture">
+          Architecture
+        </button>
+      </div>
+
+      <!-- Container for dynamically adding the custom field button -->
+      <div class="field-custom-buttons">
+        <div id="custom-field-button-container"></div>
+      </div>
+
+      <!-- Custom Field Input Section -->
+      <div class="custom-field-container">
+        <input
+          type="text"
+          id="custom-field-input"
+          placeholder="Enter a custom field"
+        />
+        <div class="custom-field-actions">
+          <button id="save-custom-field">Save</button>
+          <button id="reset-custom-field">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your existing popup.js (unchanged) -->
+    <script src="popup.js"></script>
+  </body>
 </html>

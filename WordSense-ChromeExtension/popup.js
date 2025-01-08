@@ -1,3 +1,4 @@
+// .//WordSense-ChromeExtension/popup.js
 document.addEventListener('DOMContentLoaded', function () {
   const toggleButton = document.getElementById('toggle-btn');
   const fieldButtons = document.querySelectorAll('.field-btn');
@@ -79,17 +80,21 @@ resetCustomFieldButton.addEventListener('click', function () {
   // Update the toggle button state
   function updateButtonState(isEnabled) {
     const toggleIcon = document.getElementById('toggle-icon');
-    
+    const toggleStatus = document.getElementById('toggle-status');
+  
     if (isEnabled) {
       toggleIcon.src = "power-button-on.png";
       toggleButton.classList.remove("off");
       toggleButton.classList.add("on");
+      toggleStatus.textContent = "ON"; // <--- Display "ON"
     } else {
       toggleIcon.src = "power-button-off.png";
       toggleButton.classList.remove("on");
       toggleButton.classList.add("off");
+      toggleStatus.textContent = "OFF"; // <--- Display "OFF"
     }
   }
+  
   
 
   // Set the active field button

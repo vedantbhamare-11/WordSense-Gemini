@@ -1,14 +1,24 @@
-# WordSense-Backend/app.py
 from flask import Flask, request, jsonify
 import google.generativeai as genai
 from flask_cors import CORS
+from dotenv import load_dotenv
+import os
 
+load_dotenv()  # This will load variables from .env into environment
 app = Flask(__name__)
 CORS(app)  # Enable CORS to allow requests from any origin
 
+# Retrieve your API key from environment variable
+API_KEY = os.getenv("API_KEY")
+
+# Check if the key is found
+if not API_KEY:
+    raise ValueError("No API key found. Please set API_KEY in your .env file.")
+
 # Configure Gemini API with your API key
-genai.configure(api_key="AIzaSyAmRn3nLQ37cd_-9FrWLwXHJfDVAW3pd88")
+genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
+
 
 @app.route('/get-meaning', methods=['POST'])
 def get_meaning():
