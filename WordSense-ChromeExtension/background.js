@@ -22,7 +22,7 @@ chrome.runtime.onConnect.addListener((port) => {
   port.onDisconnect.addListener(() => {
     isPortConnected = false;
     fetchAbortController.abort(); // Drops the connection to your Flask app immediately
-    print("🔌 Webpage disconnected. Cancelled background stream task.");
+    console.log("🔌 Webpage disconnected. Cancelled background stream task.");
   });
 
   port.onMessage.addListener(async (msg) => {
@@ -33,7 +33,8 @@ chrome.runtime.onConnect.addListener((port) => {
     isPortConnected = true;
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/get-meaning", {
+      // Direct connection targeting your live Hugging Face container endpoint
+      const response = await fetch("https://vedantbhamare-wordsense-ai.hf.space/get-meaning", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
