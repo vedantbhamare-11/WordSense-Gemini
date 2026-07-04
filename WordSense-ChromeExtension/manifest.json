@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "WordSense AI",
-  "version": "1.0",
+  "version": "2.0",
   "description": "Shows the meaning of a selected word using a tooltip.",
   "permissions": [
     "storage"
