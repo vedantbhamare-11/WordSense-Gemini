@@ -1,6 +1,6 @@
 # 🔍🤖 WordSense AI
 
-**WordSense AI** is a lightweight, zero-latency Google Chrome extension engineered for context-aware reading. Simply highlight any word or multi-word phrase on any webpage—including highly secure developer platforms such as **GitHub**, **dev.to**, or **Medium**—and WordSense instantly displays a concise, one-sentence AI-generated definition tailored to your selected knowledge domain.
+**WordSense AI** is a lightweight, zero-latency Google Chrome extension engineered for context-aware reading. Simply highlight any word or multi-word phrase on any webpage—including highly secure developer platforms such as **GitHub**, **dev.to**, or **Medium**—and WordSense instantly displays a concise, one-sentence AI-generated definition tailored strictly to your selected knowledge domain.
 
 Powered by **Groq's ultra-fast LPUs (Language Processing Units)** running **Meta Llama-3.1-8B-Instant**, WordSense delivers blazing-fast streaming responses at **500+ tokens per second** while maintaining minimal resource consumption through strict engineering guardrails.
 
@@ -12,580 +12,195 @@ Powered by **Groq's ultra-fast LPUs (Language Processing Units)** running **Meta
 
 WordSense begins streaming definitions immediately after text selection using a real-time typewriter rendering engine, providing an uninterrupted reading experience.
 
----
-
 ## 🎯 Domain-Specific Context Tuning
 
 Choose from built-in knowledge domains:
 
-- General
-- Science
-- Medical
-- Law
-- Computer Science
-- Architecture
+* General
+* Science
+* Medical
+* Law
+* Computer Science
+* Architecture
 
-Or create your own custom domain such as:
+Or save your own custom domain profile, such as *Cricket*, *Frontend Engineering*, *Cyber Security*, *Finance*, or *Data Science*. Each domain dynamically modifies the AI engine's role prompt to produce definitions specifically relevant to that field.
 
-- Cricket
-- Frontend Engineering
-- Cyber Security
-- Finance
-- Data Science
+## 🛡️ Content Security Policy (CSP) Bypass
 
-Each domain dynamically modifies the AI prompt to produce definitions specifically relevant to that field.
-
----
-
-## 🛡️ CSP Security Bypass
-
-Many websites enforce strict **Content Security Policies (CSP)** that block client-side API requests.
-
-WordSense solves this by routing all network requests through an isolated **Background Service Worker**, allowing the extension to function seamlessly on platforms including:
-
-- GitHub
-- Medium
-- dev.to
-- Documentation websites
-- Enterprise applications
-
----
+Many websites enforce strict security protocols that block client-side API requests. WordSense solves this by routing network requests through an isolated browser-level **Background Service Worker**, allowing the extension to function seamlessly on enterprise platforms.
 
 ## 🔋 Leak-Proof Resource Management
 
-The extension continuously monitors user activity using **AbortController**.
-
-Running AI requests are automatically cancelled whenever the user:
-
-- deselects text
-- clicks elsewhere
-- switches browser tabs
-- starts another selection
-
-This prevents unnecessary API usage while keeping the interface highly responsive.
-
----
+The extension continuously monitors user activity using an **AbortController** network sentinel loop. Running AI requests are automatically cancelled the instant a user deselects text, clicks elsewhere, switches browser tabs, or starts another selection—aggressively saving your API token quotas.
 
 ## 🎨 Premium Glassmorphism Interface
 
-WordSense features a modern cyberpunk-inspired UI built using:
+WordSense features a modern cyberpunk-inspired UI layout built using pure CSS variables and hardware-accelerated animations (`requestAnimationFrame`). The floating tooltip remains lightweight while offering a premium visual layout.
 
-- Glassmorphism
-- CSS Variables
-- Hardware Accelerated Animations
-- requestAnimationFrame
-- Responsive Layout Scaling
+## ⚠️ Manifest V3 Standard Compliant
 
-The floating tooltip remains lightweight while offering a premium visual experience.
-
----
-
-## ⚠️ Manifest V3 Ready
-
-The extension is fully compliant with **Chrome Manifest V3** and uses only the minimum required permissions:
-
-- storage
-- activeTab
-- Explicit host permissions
-
-This avoids unnecessary installation warnings while maintaining strong security.
+The extension is fully compliant with **Chrome Manifest V3** and is configured precisely against granular permission scopes (`storage`, `activeTab`, explicit host matches) to avoid triggering installation alerts.
 
 ---
 
 # 🏗️ Project Architecture
 
 ```text
-WordSense-Gemini/
+WordSense-AI/
 │
 ├── WordSense-Backend/
-│   ├── app.py                  # Flask backend server, AI inference, prompt management
-│   └── requirements.txt        # Python dependencies
+│   ├── app.py                  # Multi-threaded Flask application & custom UI fallback router
+│   ├── requirements.txt        # Production deployment dependency trees
+│   ├── Dockerfile              # Container building directives for cloud clusters
+│   └── README.md               # Hugging Face deployment spaces metadata header
 │
 └── WordSense-ChromeExtension/
-    ├── manifest.json           # Chrome Extension Manifest V3 configuration
-    ├── background.js           # Background service worker, API bridge, request handling
-    ├── content.js              # Text selection detection, tooltip rendering, streaming UI
-    ├── popup.html              # Extension popup interface
-    ├── popup.css               # Popup styling and glassmorphism theme
-    ├── popup.js                # Popup interactions and settings management
-    ├── icon.png                # Extension icon
-    ├── power-button-on.png     # Enabled state icon
-    └── power-button-off.png    # Disabled state icon
+    ├── manifest.json           # Manifest V3 configurations & safe host allowances
+    ├── background.js           # Network worker bridge, port monitor, & abort tracker
+    ├── content.js              # Tooltip layout engine, debouncer, & typewriter loop
+    ├── popup.html              # Clean dark dashboard window layout
+    ├── popup.css               # Cyberpunk neon variables & micro-animations
+    ├── popup.js                # Event delegation controller & state sync manager
+    ├── icon.png                # Primary extension icon surface
+    ├── power-button-on.png     # Active extension state toggle graphic
+    └── power-button-off.png    # Inactive extension state toggle graphic
 ```
-
----
 
 # 📂 Directory Overview
 
 ## WordSense-Backend
 
-The backend is built using **Python** and **Flask**, serving as the AI inference layer responsible for processing highlighted text and returning concise, domain-aware definitions.
+Built using Python 3, Flask, and Gunicorn, this component serves as the core AI inference layer hosted as a Dockerized container web app inside the cloud.
 
-### Files
-
-| File | Description |
-|------|-------------|
-| **app.py** | Main Flask application handling API requests, prompt engineering, AI model communication, and response generation. |
-| **requirements.txt** | Lists all required Python packages and project dependencies. |
-
----
+| File             | Description                                                                                                                                                |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| app.py           | Main Flask application handling requests, Groq connection pooling, prompt engineering, and an integrated landing page fallback dashboard for GET requests. |
+| requirements.txt | Pinpoints specific library weights including groq, flask-cors, and gunicorn.                                                                               |
+| Dockerfile       | Configures an ultra-light Linux container runtime matrix exposing application traffic on standard Hugging Face server blocks.                              |
 
 ## WordSense-ChromeExtension
 
-The Chrome Extension provides the user interface, captures highlighted text, communicates with the backend, and displays streamed AI responses inside a floating tooltip.
+The client-side package that hooks into the browser layer, tracks user highlight actions, manages extension states, and streams text matrices down to the webpage view frame.
 
-### Files
-
-| File | Description |
-|------|-------------|
-| **manifest.json** | Chrome Manifest V3 configuration, permissions, content scripts, and background service worker registration. |
-| **background.js** | Acts as the secure communication bridge between the extension and backend while handling request lifecycle management. |
-| **content.js** | Detects text selections, validates input, renders the floating tooltip, and streams AI-generated definitions. |
-| **popup.html** | Main extension popup UI displayed when clicking the extension icon. |
-| **popup.css** | Styles the popup interface using a modern dark theme and glassmorphism effects. |
-| **popup.js** | Handles popup interactions, domain selection, extension state, and local storage synchronization. |
-| **icon.png** | Primary Chrome extension icon. |
-| **power-button-on.png** | Indicates the extension is enabled. |
-| **power-button-off.png** | Indicates the extension is disabled. |
-
-
-## WordSense-ChromeExtension
-
-### manifest.json
-
-- Chrome Manifest V3 configuration
-- Required permissions
-- Content scripts
-- Background service worker
-- Host permissions
-
----
-
-### background.js
-
-Responsible for:
-
-- API communication
-- CSP bypass
-- AbortController management
-- Request cancellation
-- Message bridge between content scripts and backend
-
----
-
-### content.js
-
-Handles:
-
-- Text selection detection
-- Floating tooltip rendering
-- Streaming typewriter animation
-- Position calculations
-- Debouncing
-- Selection validation
-
----
-
-### popup.html
-
-Provides the extension popup interface where users can:
-
-- Enable or disable WordSense
-- Select AI domain
-- Configure custom domains
-
----
-
-### popup.css
-
-Contains:
-
-- Dark theme styling
-- Glassmorphism
-- Animations
-- Responsive layouts
-- CSS Variables
-
----
-
-### popup.js
-
-Manages:
-
-- Popup events
-- Local storage
-- Domain switching
-- User preferences
-- State synchronization
-
----
-
-# 🐍 WordSense-Backend
-
-## app.py
-
-Python Flask server responsible for:
-
-- Groq API integration
-- Prompt engineering
-- Domain-specific prompting
-- Streaming AI responses
-- Multi-model fallback
-- Connection pooling
-
----
-
-## requirements.txt
-
-Contains Python dependencies such as:
-
-- Flask
-- Flask-CORS
-- groq
-- python-dotenv
-
----
-
-## .env
-
-Stores private credentials:
-
-```env
-GROQ_API_KEY=gsk_your_key_here
-```
-
----
+| File                  | Description                                                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| manifest.json         | Declares background loops, content injection criteria, and allows secure data pipelines directly over https://*.hf.space/. |
+| background.js         | Manages network lifecycles, cross-origin communication, and handles AbortController triggers.                              |
+| content.js            | Appends the glassmorphic container layout, debounces selection mouse events, and handles the typewriter animation loop.    |
+| popup.html / css / js | The control center panel that saves user topic context overrides using standard browser storage syncing.                   |
 
 # 🛠️ Technology Stack
 
-## Frontend
+**Frontend Client:** Vanilla JavaScript (ES6+), HTML5, CSS Variables, Chrome Extension API (Manifest V3)
 
-- Vanilla JavaScript (ES6+)
-- HTML5
-- CSS3
-- Chrome Extension APIs
-- Manifest V3
+**Backend API Engine:** Python 3, Flask, Flask-CORS, Gunicorn (Multi-threaded cluster worker)
 
----
+**Cloud Infrastructure:** Hugging Face Spaces (Docker Environment Platform Engine)
 
-## Backend
+**AI Inference Pipeline:** Groq Python SDK (Llama-3.1-8b-instant primary model, Llama-3.3-70b-versatile automatic failover backup tier)
 
-- Python 3
-- Flask
-- Flask-CORS
-- Python Dotenv
+# 🚀 Installation & Launch Guide
 
----
+## 1. Cloud-Hosted Backend Setup (Hugging Face Spaces)
 
-## AI Engine
+The backend container is optimized to run serverless in the cloud.
 
-Primary Model:
+If deploying your own:
 
-- Meta Llama-3.1-8B-Instant
-
-Backup Model:
-
-- Meta Llama-3.3-70B-Versatile
-
-Hosted on:
-
-- Groq LPUs
-
----
-
-# 🚀 Installation Guide
-
-## 1. Clone the Project
+* Create a new Docker Space (Blank Template) on Hugging Face.
+* In the Space Settings, add a new secret variable named `GROQ_API_KEY` containing your access key.
+* Push your backend code structure securely up to the space git remote repository:
 
 ```bash
-git clone <repository-url>
+git subtree split --prefix WordSense-Backend -b temp-deploy-branch
+git push hf temp-deploy-branch:main --force
 ```
 
----
+Your app endpoint will automatically fire up and display a glowing high-tech "Engine Active" landing card at:
 
-## 2. Navigate to Backend
-
-```bash
-cd WordSense-Backend
+```
+https://YOUR_USERNAME-wordsense-ai.hf.space/
 ```
 
----
+## 2. Chrome Extension Client Setup
 
-## 3. Create Virtual Environment
+* Clone this repository down onto your local machine workspace.
+* Open your extension browser configurations tab:
 
-```bash
-python3 -m venv venv
+```
+chrome://extensions/
 ```
 
----
+* Toggle the **Developer mode** switch in the top-right corner to **ON**.
+* Click the **Load unpacked** button located in the top-left section.
+* Choose the **WordSense-ChromeExtension** folder inside your local directory layout.
+* Make sure to refresh any open browser tabs using a hard layout update (**Cmd + Shift + R** or **Ctrl + F5**) to successfully attach the new script hooks.
 
-## 4. Activate Environment
+# ⚙️ Performance Optimizations & Guardrails
 
-### macOS/Linux
+### Event Debouncing
 
-```bash
-source venv/bin/activate
-```
+Highlighting text initiates an active **300ms cooling window** to check if the user is still dragging their cursor, effectively blocking double-clicks or micro-selections from hammering the API.
 
-### Windows
+### Exact-Word Cache Engine
 
-```bash
-venv\Scripts\activate
-```
+The extension dynamically remembers your last lookup phrase. If you highlight the exact same string context twice, it instantly skips the web request and re-renders the cached definition block.
 
----
+### Selection Truncation Metrics
 
-## 5. Install Dependencies
+Pure numerical selections are filtered out via regular expressions. Lookups are strictly bound between **3 and 60 characters** with a **maximum threshold of 4 words**—ensuring multi-word idioms function flawlessly while protecting your infrastructure from reading massive paragraph walls.
 
-```bash
-pip install --no-cache-dir -r requirements.txt
-```
+### Deterministic Inference Tuning
 
----
-
-## 6. Create Environment File
-
-Create a file named:
+The backend engine forces constraints using:
 
 ```text
-.env
-```
-
-Add your Groq API key:
-
-```env
-GROQ_API_KEY=gsk_your_actual_key_here
-```
-
----
-
-## 7. Start Backend
-
-```bash
-python3 app.py
-```
-
-Backend will be available at:
-
-```
-http://127.0.0.1:5000
-```
-
----
-
-# 🌐 Install Chrome Extension
-
-Open:
-
-```
-chrome://extensions
-```
-
-Enable:
-
-```
-Developer Mode
-```
-
-Click:
-
-```
-Load Unpacked
-```
-
-Select:
-
-```
-WordSense-ChromeExtension
-```
-
-After installation:
-
-- Open any webpage
-- Force refresh the page
-
-### macOS
-
-```
-Cmd + Shift + R
-```
-
-### Windows
-
-```
-Ctrl + F5
-```
-
----
-
-# ⚙️ Performance Optimizations
-
-## Event Debouncing
-
-After every text selection, WordSense waits:
-
-```
-300 milliseconds
-```
-
-before sending a request.
-
-This avoids:
-
-- accidental drags
-- double clicks
-- repeated API calls
-
----
-
-## Exact Word Cache
-
-The extension remembers the last successful lookup.
-
-If the same word is selected again:
-
-- API request is skipped
-- Cached state is used
-
-This significantly reduces API consumption.
-
----
-
-## Selection Validation
-
-Only valid selections are processed.
-
-Rules:
-
-- Minimum length: **3 characters**
-- Maximum length: **60 characters**
-- Maximum words: **4**
-- Pure numbers are ignored
-
-Examples:
-
-✅ Artificial Intelligence
-
-✅ Arm Ball
-
-✅ Back Foot
-
-❌ 123456
-
-❌ Entire paragraphs
-
----
-
-## Deterministic AI Responses
-
-The backend uses:
-
-```python
 temperature = 0.1
 max_tokens = 64
 ```
 
-Benefits include:
+restricting the model from writing long essays and preserving your free-tier daily Tokens Per Minute (TPM) quotas.
 
-- concise definitions
-- consistent responses
-- lower token usage
-- free-tier friendly
-
----
-
-# 🔄 Request Flow
+# 🔄 System Data Request Flow
 
 ```text
-User Highlights Text
+User Highlights Text Matrix
           │
           ▼
-Selection Validation
+Selection Criteria Checked (3-60 chars, max 4 words)
           │
           ▼
-300ms Debounce
+300ms Performance Cooling Debounce
           │
           ▼
-Content Script
+Content Script Captures Target Strings
           │
           ▼
-Background Service Worker
+Background Service Worker Secure Bridge Pipeline
           │
           ▼
-Flask Backend
+Cloud Container Service Endpoint (Hugging Face Docker Hub)
           │
           ▼
-Groq API
+Groq High-Speed LPU Inference Layer (Llama-3.1-8b-instant Engine)
           │
           ▼
-Streaming Response
+Real-time Server-Sent Event Text Chunk Relays
           │
           ▼
-Typewriter Renderer
+Content Script Hardware Accelerated Typewriter Engine
           │
           ▼
-Floating Tooltip
+Premium Glassmorphism Float Tooltip Display Surface
 ```
-
----
-
-# 🎯 Supported Domains
-
-- General
-- Science
-- Medical
-- Law
-- Computer Science
-- Architecture
-- Custom Domain
-
-Examples of custom domains:
-
-- Cricket
-- Frontend Engineering
-- DevOps
-- Machine Learning
-- Cyber Security
-- Finance
-- Economics
-- Biology
-- Chemistry
-- Physics
-
----
-
-# 🚀 Why WordSense AI?
-
-- ⚡ Instant AI-powered definitions
-- 🧠 Context-aware explanations
-- 🌐 Works across nearly all websites
-- 🔒 Secure Manifest V3 architecture
-- 🛡️ CSP-compliant request routing
-- 💡 Lightweight and optimized
-- 🎨 Beautiful glassmorphism interface
-- 🔋 Minimal API usage
-- ⚙️ Smart request cancellation
-- 📚 Domain-aware learning experience
-
----
 
 # 📄 License
 
-This project is intended for educational and personal productivity purposes.
+This application blueprint is released openly for personal productivity tracking and developer educational exploration matrices.
 
----
+# 👨‍💻 Engineering Core
 
-## 👨‍💻 Built With
-
-- Chrome Extension Manifest V3
-- Vanilla JavaScript
-- HTML5
-- CSS3
-- Python
-- Flask
-- Groq API
-- Meta Llama Models
-
----
-
-**WordSense AI** transforms everyday reading into an intelligent, context-aware learning experience by delivering lightning-fast AI definitions exactly when you need them.
+* Vanilla JS DOM Frameworks
+* Python Flask Event Streaming Architectures
+* Docker Virtualized Container Deployments
+* Groq Ultra-Fast LPU Inference Platforms
