@@ -4,22 +4,23 @@
   "version": "1.0",
   "description": "Shows the meaning of a selected word using a tooltip.",
   "permissions": [
-    "activeTab",
-    "storage",
-    "scripting"
+    "storage"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:5000/"
   ],
   "icons": {
     "128": "icon.png"
   },
-"background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["http://*/*", "https://*/*"],
       "js": ["content.js"]
     }
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html"
   }
