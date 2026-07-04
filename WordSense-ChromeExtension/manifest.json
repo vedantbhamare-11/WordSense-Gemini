@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "WordSense Extension",
+  "name": "WordSense AI",
   "version": "1.0",
   "description": "Shows the meaning of a selected word using a tooltip.",
   "permissions": [
