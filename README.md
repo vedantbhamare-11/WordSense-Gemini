@@ -43,6 +43,27 @@ The extension is fully compliant with **Chrome Manifest V3** and is configured p
 
 ---
 
+# 🧠 Latent Capabilities & Linguistic Superpowers
+
+Beyond its core design configurations, the unique architecture of WordSense AI unlocks several emergent semantic and behavioral superpowers:
+
+### 🔄 Advanced Polysemy Resolution (Contextual Disambiguation)
+In linguistics, *polysemy* occurs when a single word possesses multiple distinct meanings. While static dictionaries force you to wade through irrelevant text walls, WordSense AI dynamically isolates definitions based on your active viewport environment. Highlighting the token `"Pipeline"` with the **Computer Science** profile active yields a CI/CD automation definition; highlighting it on financial layout spaces transforms it into a sales forecasting definition.
+
+### 🧱 Micro-Phrasal Idiom & Compound Parsing
+Standard dictionaries fail when handling complex multi-word idioms, tech jargon, or modern internet slang (e.g., *"biting the bullet"*, *"spilling the beans"*, or engineering slang like *"dogfooding"*). Because the text-selection trigger captures bounded phrases natively, WordSense evaluates the collective semantic weight of compound phrases to deliver an accurate translation instead of broken, word-by-word literal translations.
+
+### 🧪 Living Neologism & Acronym Decoding
+Language evolves faster than traditional lexicons can publish updates. WordSense acts as a real-time semantic map, instantly translating cutting-edge industry buzzwords, abbreviations, and developer-shorthand acronyms (*CSP*, *LPU*, *CORS*, or *camelCase* variables) that are completely absent from standard dictionary frameworks.
+
+### 🌐 Cross-Lingual Code-Switching Inferences
+Global technical documentation frequently exhibits *code-switching*—interspersing non-English contextual phrases or specialized localized loanwords within standard text bodies. The underlying LLM pipeline acts as an inline hybrid translator, inferring exactly what the foreign token conveys relative to the surrounding English context, keeping reading immersion intact.
+
+### 🛡️ Immune Injection-Proof Sandbox
+Because the content script pipeline injects incoming server-sent event (SSE) data streams strictly through non-executable `.textContent` nodes rather than high-risk native parsing engines like `.innerHTML`, it creates a built-in security shield. If an AI provider ever undergoes a prompt injection or streams rogue HTML/JS snippets, the client interface automatically strips away malicious execution, safely rendering it as flat, passive string text.
+
+---
+
 # 🏗️ Project Architecture
 
 ```text
