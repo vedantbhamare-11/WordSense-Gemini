@@ -1,7 +1,7 @@
 import os
 import sys
 from dotenv import load_dotenv
-from flask import Flask, request, Response, stream_with_context
+from flask import Flask, request, Response, stream_with_context, render_template_string
 from flask_cors import CORS
 from groq import Groq
 
@@ -26,6 +26,52 @@ SYSTEM_INSTRUCTION = (
     "of the requested term based strictly on the provided domain context. Output exactly one short sentence. "
     "Do not include greeting phrases, preamble text, summary explanations, or bold markdown formatting."
 )
+
+# A clean, high-tech landing page UI to display instead of a 404 error
+HOME_HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordSense AI | Cloud Engine</title>
+    <style>
+        body {
+            margin: 0; padding: 0; box-sizing: border-box;
+            background-color: #0f1115; color: #f3f4f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+        .card {
+            background: #161920; border: 1px solid #262c3a;
+            padding: 32px; border-radius: 16px; text-align: center;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4); max-width: 400px; width: 90%;
+        }
+        h1 { margin: 0 0 8px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: #f3f4f6; }
+        .status {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(1, 173, 181, 0.1); color: #01adb5;
+            padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;
+            margin-bottom: 20px; border: 1px solid rgba(1, 173, 181, 0.2);
+        }
+        .dot { width: 8px; height: 8px; background-color: #01adb5; border-radius: 50%; }
+        p { margin: 0; font-size: 14px; color: #9ca3af; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="status"><div class="dot"></div> Engine Active</div>
+        <h1>WordSense AI</h1>
+        <p>This is the production streaming API cluster for your extension. Securely processing dictionary requests live in the cloud via Groq LPU systems.</p>
+    </div>
+</body>
+</html>
+"""
+
+@app.route("/", methods=["GET"])
+def home():
+    """Renders a beautiful landing page when visiting the space directly."""
+    return render_template_string(HOME_HTML_TEMPLATE)
 
 @app.route("/get-meaning", methods=["POST"])
 def get_meaning():
