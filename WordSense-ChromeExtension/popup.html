@@ -4,69 +4,39 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WordSense Extension</title>
-
-    <!-- Google Font -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-    />
-
-    <!-- Link to external CSS file -->
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <!-- Updated heading with "AI" badge -->
     <div class="heading">
-      <h1>
-        WordSense
-        <span class="ai-badge">AI</span>
-      </h1>
-      <div id="toggle-btn" class="off">
-        <img
-          id="toggle-icon"
-          src="power-button-off.png"
-          alt="Power Button"
-          style="width: 30px; height: 30px"
-        />
-      </div>
+      <h1>WordSense AI</h1>
+      <button id="toggle-btn" class="off" title="Toggle Extension Status">
+        <img id="toggle-icon" src="power-button-off.png" alt="Power" style="width: 20px; height: 20px;" />
+      </button>
     </div>
 
     <div class="container">
-     
-      <!-- Field Buttons -->
       <div class="field-buttons">
-        <button class="field-btn active" data-field="General">General</button>
+        <button class="field-btn" data-field="General">General</button>
         <button class="field-btn" data-field="Science">Science</button>
         <button class="field-btn" data-field="Medical">Medical</button>
         <button class="field-btn" data-field="Law">Law</button>
-        <button class="field-btn" data-field="Computer Science">
-          Computer
-        </button>
-        <button class="field-btn" data-field="Architecture">
-          Architecture
-        </button>
+        <button class="field-btn" data-field="Computer Science">Computer</button>
+        <button class="field-btn" data-field="Architecture">Architecture</button>
       </div>
 
-      <!-- Container for dynamically adding the custom field button -->
       <div class="field-custom-buttons">
         <div id="custom-field-button-container"></div>
       </div>
 
-      <!-- Custom Field Input Section -->
       <div class="custom-field-container">
-        <input
-          type="text"
-          id="custom-field-input"
-          placeholder="Enter a custom field"
-        />
+        <input type="text" id="custom-field-input" placeholder="Type a custom context (e.g. Cricket)" />
         <div class="custom-field-actions">
-          <button id="save-custom-field">Save</button>
-          <button id="reset-custom-field">Reset</button>
+          <button id="save-custom-field">Save Field</button>
+          <button id="reset-custom-field">Clear</button>
         </div>
       </div>
     </div>
 
-    <!-- Your existing popup.js (unchanged) -->
     <script src="popup.js"></script>
   </body>
 </html>

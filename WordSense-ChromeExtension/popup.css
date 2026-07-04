@@ -1,248 +1,214 @@
 :root {
-    /* Keep your primary color the same for active states/buttons */
-    --primary-color: #01adb5;
-  
-    /* Pastel-themed background and container colors */
-    --body-bg: linear-gradient(135deg, #fffaf5 0%, #ffeef4 100%);
-    --container-bg: #ffffff;
-    --heading-color: #038289;
-    --text-color: #555;
-    --button-bg: #ddd;
-    --button-text: #333;
-    --button-hover-bg: #ddd;
-  }
-  
-  /* Base page styling */
-  body {
-    width: 300px;
-    margin: 0;
-    padding: 4px;
-    box-sizing: border-box;
-    font-family: "Roboto", sans-serif;
-    background: var(--body-bg); /* Pastel gradient background */
-    color: var(--text-color);
-    border-radius: 12px;
-    text-align: center;
-  
-    /* Subtle drop shadow */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Container that wraps the content */
-  .container {
-    background: var(--container-bg);
-    padding: 16px;
-    border-radius: 12px;
-  
-    /* Inner container shadow */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  
-    /* Slight top spacing from heading */
-    margin-top: -4px;
-  }
-  
-  /* Heading style */
-
-  .heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-  }
-  h1 {
-    font-size: 26px;
-    font-weight: 800;
-    font-family: Georgia, "Times New Roman", Times, serif;
-    color: var(--heading-color);
-    margin-bottom: 14px;
-  
-  }
-
-  .ai-badge {
-    position: absolute;
-    top: 25px;
-    left: 57%;
-    padding: 2px 8px;
-    font-size: 12px;
-    font-weight: 700;
-    color: #fff;
-    background-color: var(--primary-color);
-    border-radius: 9999px;
-    text-transform: uppercase;
-    
-  }
-
-  
-  /* Toggle button container */
-  #toggle-btn {
-    position: relative;
-    
-    display: flex;
-    /* flex-direction: column; */
-    /* align-items: center; */
-    align-self: flex-end;
-    bottom: 10px;
-    border-radius: 100%;
-    padding: 5px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  
-  #toggle-status {
-    font-weight: 500;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 15px;
-  }
-  
-  #toggle-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 1px rgba(1, 173, 181, 0.4);
-  }
-  
-  /* Field button groups */
-.field-buttons {
-  display: grid; /* Use grid for 2-column layout */
-  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
-  gap: 10px; /* Spacing between buttons */
-  justify-content: center;
-  width: 100%; /* Ensure buttons span the container width */
-  margin: auto;
+  --primary: #01adb5;
+  --primary-glow: rgba(1, 173, 181, 0.25);
+  --bg-main: #0f1115;
+  --bg-card: #161920;
+  --bg-input: #1e222b;
+  --border-color: #262c3a;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.2);
 }
 
-.field-buttons button {
-  padding: 10px;
-  font-size: 14px;
+body {
+  width: 320px;
+  margin: 0;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+/* Clearer dynamic title header layout frame */
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-main);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--bg-main);
+  background-color: var(--primary);
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* Upgraded interactive power control toggle design */
+#toggle-btn {
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#toggle-btn:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 12px var(--primary-glow);
+  transform: translateY(-1px);
+}
+
+#toggle-btn.on {
+  border-color: var(--primary);
+  background: rgba(1, 173, 181, 0.05);
+}
+
+#toggle-btn.off {
+  border-color: var(--border-color);
+  opacity: 0.6;
+}
+
+.container {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Smooth contextual option selection system grid */
+.field-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.field-btn {
+  padding: 10px 12px;
+  font-size: 13px;
   font-weight: 500;
-  background-color: var(--button-bg);
-  color: var(--button-text);
+  text-align: left;
+  background-color: var(--bg-input);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.field-btn:hover {
+  border-color: #3b4252;
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.field-btn.active {
+  background-color: rgba(1, 173, 181, 0.1) !important;
+  color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  font-weight: 600;
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+/* Clean placement wrapping box for user generated topics */
+.field-custom-buttons {
+  width: 100%;
+}
+
+#custom-field-button-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+/* User Text Entry Panel Box */
+.custom-field-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+}
+
+.custom-field-container input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13px;
+  background-color: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.custom-field-container input::placeholder {
+  color: #4b5563;
+}
+
+.custom-field-container input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+/* Button Layout Panel Matrix */
+.custom-field-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.custom-field-actions button {
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-
-  /* Fun transitions */
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.15s ease;
 }
 
-.field-buttons button:hover {
-  background-color: var(--button-hover-bg);
-  transform: translateY(-2px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+#save-custom-field {
+  background-color: var(--primary);
+  color: var(--bg-main);
+  flex: 2;
 }
 
-/* Active button state uses the primary color */
-.field-buttons button.active {
-  background-color: var(--primary-color) !important;
+#save-custom-field:hover {
+  background-color: #02c4ce;
+  box-shadow: 0 0 14px rgba(1, 173, 181, 0.4);
+  transform: translateY(-1px);
+}
+
+#reset-custom-field {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  flex: 1;
+}
+
+#reset-custom-field:hover {
+  background-color: var(--danger);
   color: #fff;
-  font-weight: 700;
-  box-shadow: 0 4px 8px rgba(1, 173, 181, 0.3);
+  box-shadow: 0 0 12px var(--danger-glow);
+  transform: translateY(-1px);
 }
-
-  
-  /* Custom field button container */
-  .field-custom-buttons {
-    flex-wrap: wrap;
-    gap: 10px;
-    width: auto;
-    margin: auto;
-  }
-  
-  .field-custom-buttons button {
-    flex: 1;
-    padding: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .field-custom-buttons button:hover {
-    background-color: var(--button-hover-bg);
-    transform: translateY(-2px);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Active button state uses the primary color */
-  .field-buttons button.active,
-  .field-custom-buttons button.active {
-    background-color: var(--primary-color) !important;
-    color: #fff;
-    font-weight: 700;
-    box-shadow: 0 4px 8px rgba(1, 173, 181, 0.3);
-  }
-  
-  /* Custom field input container */
-  .custom-field-container {
-    margin-top: 20px;
-    font-size: 14px;
-    width: 100%;
-  }
-  
-  .custom-field-container input {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
-  
-    /* Subtle box shadow on focus */
-    transition: box-shadow 0.2s ease;
-  }
-  
-  .custom-field-container input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(1, 173, 181, 0.3);
-  }
-  
-  /* Buttons in custom-field-actions */
-  .custom-field-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-    width: 100%;
-  }
-  
-  .custom-field-actions button {
-    flex: 1;
-    padding: 10px;
-    font-weight: 500;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  
-    /* Subtle transitions */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-  }
-  
-  /* “Save” button uses the primary color */
-  #save-custom-field {
-    background-color: var(--primary-color);
-    width: 70%;
-  }
-  #save-custom-field:hover {
-    background-color: #038289; /* Darker shade of the primary color */
-    transform: translateY(-2px);
-    box-shadow: 0 3px 8px rgba(3, 130, 137, 0.3);
-  }
-  
-  /* “Reset” button is a warning style */
-  #reset-custom-field {
-    background-color: #e74c3c;
-  }
-  #reset-custom-field:hover {
-    background-color: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 3px 8px rgba(192, 57, 43, 0.3);
-  }
-  
