@@ -1,157 +1,121 @@
-// .//WordSense-ChromeExtension/popup.js
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
+  // Cache DOM element selection tokens up front
   const toggleButton = document.getElementById('toggle-btn');
-  const fieldButtons = document.querySelectorAll('.field-btn');
+  const toggleIcon = document.getElementById('toggle-icon');
   const customFieldInput = document.getElementById('custom-field-input');
   const saveCustomFieldButton = document.getElementById('save-custom-field');
   const customFieldButtonContainer = document.getElementById('custom-field-button-container');
+  const resetCustomFieldButton = document.getElementById('reset-custom-field');
+  
+  // Use a query selector list to manage state classes elegantly
+  const fieldButtons = document.querySelectorAll('.field-btn');
+
   let customFieldButton = null;
 
-  // Get the current state from storage
-  chrome.storage.sync.get(['isExtensionEnabled', 'selectedField'], function (data) {
+  // 1. Unified State Initializer: Sync states from storage cache on load
+  chrome.storage.sync.get(['isExtensionEnabled', 'selectedField'], (data) => {
     const isExtensionEnabled = data.isExtensionEnabled ?? true;
     const selectedField = data.selectedField ?? 'General';
 
-    updateButtonState(isExtensionEnabled);
-    setActiveField(selectedField);
+    // Update power switch state class
+    toggleButton.className = isExtensionEnabled ? "on" : "off";
+    toggleIcon.src = isExtensionEnabled ? "power-button-on.png" : "power-button-off.png";
 
+    // Initialize custom tags if saved previously
     if (selectedField && !isPredefinedField(selectedField)) {
       createCustomFieldButton(selectedField);
     }
+    
+    setActiveFieldUI(selectedField);
   });
 
-  // Toggle extension state
-  toggleButton.addEventListener('click', function () {
-    chrome.storage.sync.get('isExtensionEnabled', function (data) {
+  // 2. Main System Toggle Configuration Switch
+  toggleButton.addEventListener('click', () => {
+    chrome.storage.sync.get('isExtensionEnabled', (data) => {
       const isEnabled = data.isExtensionEnabled ?? true;
       const newState = !isEnabled;
 
-      chrome.storage.sync.set({ isExtensionEnabled: newState }, function () {
-        updateButtonState(newState);
-        chrome.runtime.sendMessage({ action: 'toggleExtension', isEnabled: newState });
+      chrome.storage.sync.set({ isExtensionEnabled: newState }, () => {
+        toggleButton.className = newState ? "on" : "off";
+        toggleIcon.src = newState ? "power-button-on.png" : "power-button-off.png";
       });
     });
   });
 
-  // Reset button functionality
-const resetCustomFieldButton = document.getElementById('reset-custom-field');
+  // 3. Event Delegation Strategy: Listen for clicks on the main button grid container
+  document.querySelector('.field-buttons').addEventListener('click', (event) => {
+    const targetButton = event.target.closest('.field-btn');
+    if (!targetButton) return;
 
-resetCustomFieldButton.addEventListener('click', function () {
-  // Remove custom field button if exists
-  if (customFieldButton) {
-    customFieldButton.remove();
-    customFieldButton = null;
-  }
-
-  // Clear storage for selectedField if it was custom
-  chrome.storage.sync.set({ selectedField: 'General' }, function () {
-    setActiveField('General'); // Reset to default field
-    customFieldInput.value = ''; // Clear input box
-  });
-});
-
-
-  // Handle field button clicks
-  fieldButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      const selectedField = this.getAttribute('data-field');
-
-      chrome.storage.sync.set({ selectedField }, function () {
-        setActiveField(selectedField);
-        if (customFieldButton) {
-          customFieldButton.classList.remove('active');
-        }
-      });
+    const selectedField = targetButton.getAttribute('data-field');
+    chrome.storage.sync.set({ selectedField }, () => {
+      setActiveFieldUI(selectedField);
     });
   });
 
-  // Save custom field and create a button
-  saveCustomFieldButton.addEventListener('click', function () {
+  // 4. Custom Field Submission Handler
+  const handleCustomFieldSave = () => {
     const customField = customFieldInput.value.trim();
+    if (!customField) return;
 
-    if (customField) {
-      chrome.storage.sync.set({ selectedField: customField }, function () {
-        setActiveField(customField);
-        createCustomFieldButton(customField);
-      });
-    }
+    chrome.storage.sync.set({ selectedField: customField }, () => {
+      createCustomFieldButton(customField);
+      setActiveFieldUI(customField);
+      customFieldInput.value = '';
+    });
+  };
+
+  saveCustomFieldButton.addEventListener('click', handleCustomFieldSave);
+  
+  // Allows pressing 'Enter' in the input box to save the field automatically
+  customFieldInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleCustomFieldSave();
   });
 
-  // Update the toggle button state
-  function updateButtonState(isEnabled) {
-    const toggleIcon = document.getElementById('toggle-icon');
-    const toggleStatus = document.getElementById('toggle-status');
-  
-    if (isEnabled) {
-      toggleIcon.src = "power-button-on.png";
-      toggleButton.classList.remove("off");
-      toggleButton.classList.add("on");
-      toggleStatus.textContent = "ON"; // <--- Display "ON"
-    } else {
-      toggleIcon.src = "power-button-off.png";
-      toggleButton.classList.remove("on");
-      toggleButton.classList.add("off");
-      toggleStatus.textContent = "OFF"; // <--- Display "OFF"
+  // 5. Complete Custom Field Reset Task
+  resetCustomFieldButton.addEventListener('click', () => {
+    if (customFieldButton) {
+      customFieldButton.remove();
+      customFieldButton = null;
     }
-  }
-  
-  
+    chrome.storage.sync.set({ selectedField: 'General' }, () => {
+      setActiveFieldUI('General');
+      customFieldInput.value = '';
+    });
+  });
 
-  // Set the active field button
-  function setActiveField(field) {
-    fieldButtons.forEach(button => {
-      button.classList.remove('active');
-      button.style.backgroundColor = '#e0e0e0'; // Reset background color for predefined buttons
-      button.style.color = '#333'; // Reset text color for predefined buttons
-  
-      if (button.getAttribute('data-field') === field) {
-        button.classList.add('active');
-        button.style.backgroundColor = '#01adb5'; // Active button background color
-        button.style.color = '#fff'; // Active button text color
-      }
+  // --- Utility Functions ---
+
+  function setActiveFieldUI(field) {
+    // Loop through predefined static field buttons
+    fieldButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-field') === field);
     });
   
+    // Synchronize custom element tag class state if active
     if (customFieldButton) {
-      if (customFieldButton.getAttribute('data-field') === field) {
-        customFieldButton.classList.add('active');
-        customFieldButton.style.backgroundColor = '#01adb5'; // Active button background color
-        customFieldButton.style.color = '#fff'; // Active button text color
-      } else {
-        customFieldButton.classList.remove('active');
-        customFieldButton.style.backgroundColor = '#e0e0e0'; // Inactive button background color
-        customFieldButton.style.color = '#333'; // Inactive button text color
-      }
+      customFieldButton.classList.toggle('active', customFieldButton.getAttribute('data-field') === field);
     }
   }
   
   function createCustomFieldButton(field) {
-    // Remove existing custom button if present
-    if (customFieldButton) {
-      customFieldButton.remove();
-    }
+    if (customFieldButton) customFieldButton.remove();
   
-    // Create the button
     customFieldButton = document.createElement('button');
-    customFieldButton.className = 'field-btn';
+    customFieldButton.className = 'field-btn'; 
     customFieldButton.setAttribute('data-field', field);
-    customFieldButton.textContent = field;
-    customFieldButton.style.backgroundColor = '#e0e0e0'; // Default background color
-    customFieldButton.style.color = '#333'; // Default text color
+    customFieldButton.textContent = `✨ ${field}`;
   
-    // Add event listener to the custom button
-    customFieldButton.addEventListener('click', function () {
-      chrome.storage.sync.set({ selectedField: field }, function () {
-        setActiveField(field);
+    customFieldButton.addEventListener('click', () => {
+      chrome.storage.sync.set({ selectedField: field }, () => {
+        setActiveFieldUI(field);
       });
     });
   
-    // Append the custom button to the container
     customFieldButtonContainer.appendChild(customFieldButton);
   }
-  
 
-  // Check if the field is predefined
   function isPredefinedField(field) {
-    return Array.from(fieldButtons).some(button => button.getAttribute('data-field') === field);
+    return Array.from(fieldButtons).some(btn => btn.getAttribute('data-field') === field);
   }
 });
